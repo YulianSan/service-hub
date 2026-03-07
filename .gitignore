@@ -27,3 +27,4 @@ yarn-error.log
 /.vscode
 /.zed
 components.d.ts
+resources/js/ziggy.js
