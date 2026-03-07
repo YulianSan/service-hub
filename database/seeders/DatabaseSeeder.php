@@ -2,22 +2,29 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
+use App\Models\Company;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserProfile;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $company = Company::factory()->create([
+            'name' => 'KPMG',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $user = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'company_id' => $company->id
+        ]);
+
+        UserProfile::factory()->create([
+            'role' => UserRole::ADMIN,
+            'user_id' => $user->id
         ]);
     }
 }
