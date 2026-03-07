@@ -16,18 +16,16 @@ const submit = () => {
 <template>
 
     <Head title="Login"></Head>
-    <form @submit.prevent="submit">
-        <label for="email">
-            Email
-            <input type="email" name="email" id="email" v-model="form.email" />
-        </label>
-        <label for="password">
-            Password
-            <input type="password" name="password" id="password" v-model="form.password" />
-        </label>
-        <span v-if="page.props.errors?.login">
-            {{ page.props.errors.login }}
-        </span>
-        <button type="submit">Login</button>
-    </form>
+    <Box>
+        <form @submit.prevent="submit">
+            <Input id="email" type="email" v-model="form.email">Email</Input>
+            <Input id="password" type="password" v-model="form.password">Password</Input>
+            <MessageError v-if="page.props.errors?.login">
+                {{ page.props.errors.login }}
+            </MessageError>
+            <div class="flex justify-end mt-4">
+                <ButtonPrimary type="submit">Login</ButtonPrimary>
+            </div>
+        </form>
+    </Box>
 </template>
