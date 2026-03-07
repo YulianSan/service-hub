@@ -31,4 +31,9 @@ export default defineConfig({
             dts: true
         }),
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/js'
+        }
+    }
 });
