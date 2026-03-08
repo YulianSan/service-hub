@@ -20,8 +20,8 @@ Laravel Sail will handle PHP, database, Redis, and other services inside contain
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <project-folder>
+git clone https://github.com/YulianSan/service-hub.git
+cd service-hub
 ```
 
 Install PHP dependencies:
