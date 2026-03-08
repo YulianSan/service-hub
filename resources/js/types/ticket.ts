@@ -9,11 +9,21 @@ export enum TicketStatus {
 }
 
 export interface Ticket {
-    id: number;
-    project_id: number;
-    user_id: number;
-    title: string;
-    status: TicketStatus;
-    created_at: string;
-    updated_at: string;
+    id: number,
+    project_id: number,
+    user_id: number,
+    title: string,
+    status: TicketStatus,
+    created_at: string,
+    updated_at: string,
+    details: TicketDetails
+}
+
+export interface TicketDetails {
+    id: number,
+    errors: string,
+    technical_notes: string,
+    metadata: Record<string, any>,
+    created_at: string,
+    updated_at: string
 }

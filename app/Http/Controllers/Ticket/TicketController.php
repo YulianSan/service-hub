@@ -60,6 +60,8 @@ class TicketController extends Controller
     {
         $this->authorize('update', $ticket);
 
+        $ticket->load('details');
+
         return Inertia::render('Ticket/CreateEdit', [
             'ticket' => $ticket,
             'projects' => Project::where(
