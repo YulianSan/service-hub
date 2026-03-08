@@ -16,7 +16,7 @@ const submit = () => {
 <template>
 
     <Head title="Login"></Head>
-    <Box>
+    <BoxMd>
         <form @submit.prevent="submit">
             <Input id="email" type="email" v-model="form.email">Email</Input>
             <Input id="password" type="password" v-model="form.password">Password</Input>
@@ -27,5 +27,5 @@ const submit = () => {
                 <ButtonPrimary type="submit">Login</ButtonPrimary>
             </div>
         </form>
-    </Box>
+    </BoxMd>
 </template>
