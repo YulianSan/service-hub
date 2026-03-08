@@ -50,7 +50,7 @@ const computedColumns = computed(() => {
 
                 <tr v-if="!data.length">
                     <td :colspan="computedColumns.length" class="px-4 py-6 text-center text-sm text-gray-500">
-                        Nenhum registro encontrado
+                        No records found.
                     </td>
                 </tr>
             </tbody>
