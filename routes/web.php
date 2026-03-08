@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Project\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::inertia('/', 'Welcome')->name('home');
+    Route::resource('projects', ProjectController::class)->except('show');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
