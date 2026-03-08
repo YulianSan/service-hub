@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { inject, computed } from 'vue';
+import type { ComputedRef } from 'vue';
+
 const props = defineProps<{
     id?: string
     error?: string
@@ -13,6 +16,12 @@ const handleFile = (event: Event) => {
 
     emit('update:modelValue', file)
 }
+
+const errors = inject<ComputedRef<Record<string, string[]>>>('errors')
+
+const error = computed(() => {
+    return errors?.value?.[props.id] ?? props?.error
+})
 </script>
 
 <template>

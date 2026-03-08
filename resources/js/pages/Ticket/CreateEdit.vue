@@ -32,10 +32,15 @@ const cancel = () => {
 const metadata = computed(() => {
     return JSON.stringify(props.ticket?.details?.metadata)
 })
+
+const editable = computed(() => {
+    return !!props?.ticket?.id
+})
 </script>
 <template>
     <AuthenticatedLayout>
-        <Form @submit="submit" @cancel="cancel" title="Create ticket">
+        <Form @submit="submit" @cancel="cancel" :title="editable ? `Edit ticket` : `Create ticket`"
+            :errors="$page.props.errors">
             <Input id="title" v-model="form.title"> Title </Input>
             <Select id="project_id" v-model="form.project_id" :options="props.projects" :label="(option) => option.name"
                 :value="(option) => option.id" labelSelect="Project" />

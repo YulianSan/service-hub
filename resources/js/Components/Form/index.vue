@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { provide, computed } from 'vue';
+
 const props = defineProps<{
     title: string
+    errors?: Record<string, string[]>
 }>()
 
 const emit = defineEmits(['submit', 'cancel'])
+
+provide('errors', computed(() => props.errors))
 
 </script>
 <template>

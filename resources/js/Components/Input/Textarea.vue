@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { inject, computed } from 'vue';
 import { defineProps, watch, onMounted } from 'vue';
+import type { ComputedRef } from 'vue';
 
 const modelValue = defineModel();
 const props = defineProps<{
@@ -19,6 +21,12 @@ onMounted(() => {
         modelValue.value = props.value
     }
 })
+
+const errors = inject<ComputedRef<Record<string, string[]>>>('errors')
+
+const error = computed(() => {
+    return errors?.value?.[props.id] ?? props?.error
+})
 </script>
 
 <template>
@@ -28,6 +36,6 @@ onMounted(() => {
         </label>
         <textarea v-bind="$attrs" v-model="modelValue" :id="props.id"
             class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-orange-400 focus:border-orange-400 p-2 transition-colors duration-150 resize-none" />
-        <p v-if="props.error" class="mt-1 text-sm text-red-500">{{ props.error }}</p>
+        <MessageError v-if="error">{{ error }}</MessageError>
     </div>
 </template>

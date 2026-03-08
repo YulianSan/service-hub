@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends { value: string | number, label: string }">
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
+import type { ComputedRef } from 'vue'
 
 const modelValue = defineModel()
 
@@ -9,10 +10,17 @@ const props = defineProps<{
     placeholder?: string,
     labelSelect?: string,
     value: (option: T) => string | number,
-    label: (option: T) => string
+    label: (option: T) => string,
+    error?: string
 }>()
 
 const hasOptions = computed(() => props.options && props.options.length)
+
+const errors = inject<ComputedRef<Record<string, string[]>>>('errors')
+
+const error = computed(() => {
+    return errors?.value?.[props.id] ?? props?.error
+})
 </script>
 
 <template>
@@ -31,7 +39,9 @@ const hasOptions = computed(() => props.options && props.options.length)
                 {{ label(option) }}
             </option>
         </template>
-
         <slot />
     </select>
+    <MessageError v-if="error">
+        {{ error }}
+    </MessageError>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { watch, onMounted } from 'vue'
+import { watch, onMounted, inject, computed } from 'vue'
+import type { ComputedRef } from 'vue'
 
 const props = defineProps<{
     id: string,
@@ -19,6 +20,12 @@ onMounted(() => {
     if (props.value) {
         modelValue.value = props.value
     }
+})
+
+const errors = inject<ComputedRef<Record<string, string[]>>>('errors')
+
+const error = computed(() => {
+    return errors?.value?.[props.id] ?? props?.error
 })
 </script>
 

@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { useForm, router } from '@inertiajs/vue3';
 import { route } from '@/services/route'
 import type { Project } from '@/types/project';
+import { computed } from 'vue';
 
 const props = defineProps<{
     project?: Project
@@ -25,10 +26,13 @@ const cancel = () => {
     router.visit(route('projects.index'))
 }
 
+const editable = computed(() => {
+    return !!props?.project?.id
+})
 </script>
 <template>
     <AuthenticatedLayout>
-        <Form @submit="submit" @cancel="cancel" title="Create Project">
+        <Form @submit="submit" @cancel="cancel" :title="editable ? `Edit project` : `Create project`" :errors="$page.props.errors">
             <Input id="name" v-model="form.name"> Name </Input>
             <InputTextarea id="description" rows="10" v-model="form.description"> Description </InputTextarea>
         </Form>

@@ -15,7 +15,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email:rfc,dns'],
             'phone' => ['required', 'celular_com_ddd'],
         ];
     }

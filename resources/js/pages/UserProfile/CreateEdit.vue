@@ -25,7 +25,7 @@ const cancel = () => {
 </script>
 <template>
     <AuthenticatedLayout>
-        <Form @submit="submit" @cancel="cancel" title="User Profile">
+        <Form @submit="submit" @cancel="cancel" title="User Profile" :errors="$page.props.errors">
             <Input id="name" v-model="form.name"> Name </Input>
             <Input id="email" type="email" v-model="form.email"> Email </Input>
             <Input id="phone" v-model="form.phone"> Phone </Input>
