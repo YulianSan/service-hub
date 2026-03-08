@@ -82,3 +82,25 @@ it('creates a profile if none exists', function () {
         'email' => 'tes@gmail.com',
     ]);
 });
+
+it('does not update profiles from another user', function () {
+    $otherUser = User::factory()->create([
+        'company_id' => $this->company->id
+    ]);
+
+    $data = [
+        'email' => 'tes@gmail.com',
+        'name' => 'tes',
+        'phone' => '(99)99999-9999'
+    ];
+
+    $this->assertNull($otherUser->profile);
+
+    $response = get(route('users-profile.edit', $otherUser->id));
+    $response->assertForbidden();
+
+    $response = put(route('users-profile.update', $otherUser->id), $data);
+
+    $response->assertForbidden();
+    $this->assertNull($otherUser->profile);
+});
