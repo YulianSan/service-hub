@@ -16,6 +16,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
@@ -178,7 +179,7 @@ it('does not list tickets from another company', function () {
 });
 
 it('creates ticket with attachment', function () {
-
+    Bus::fake();
     Storage::fake();
 
     $file = UploadedFile::fake()->create('test.txt', 10, 'text/plain');
@@ -210,6 +211,7 @@ it('creates ticket with attachment', function () {
 
 it('updates a ticket via controller and replaces attachment', function () {
     Storage::fake();
+    Bus::fake();
 
     $initialFile = UploadedFile::fake()->create('initial.txt', 10, 'text/plain');
 

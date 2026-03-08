@@ -58,13 +58,16 @@ class TicketService
 
         $path = Storage::putFileAs('attachments', $file, $filename);
 
-        $ticket->attachment()->create([
+        $attachment = $ticket->attachment()->create([
             'filename' => $filename,
             'path' => $path,
             'mime_type' => $file->getClientOriginalExtension(),
             'size' => $file->getSize()
         ]);
 
-        ProcessTicketAttachment::dispatch($ticket->attachment);
+        ProcessTicketAttachment::dispatch(
+            $attachment->id,
+            new TicketAttachmentService
+        );
     }
 }

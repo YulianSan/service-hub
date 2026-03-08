@@ -12,7 +12,7 @@ class TicketAttachmentService
             throw new \Exception('JSON inválido: ' . json_last_error_msg());
         }
 
-        $data['metadata'] = json_decode($data['metadata'] ?? '{}', true);
+        $data['metadata'] = $data['metadata'] ?? [];
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('JSON inválido metadata: ' . json_last_error_msg());

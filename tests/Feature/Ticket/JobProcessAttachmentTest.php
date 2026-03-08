@@ -9,8 +9,10 @@ use App\Models\Company;
 use App\Models\Project;
 use App\Models\TicketDetail;
 use App\Models\User;
+use App\Notifications\AttachmentProcessed;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 
 uses(RefreshDatabase::class);
 
@@ -37,10 +39,11 @@ it('processes a JSON attachment and updates ticket detail', function () {
     $jsonData = [
         'errors' => 'TimeoutException',
         'technical_notes' => 'App/Service.php:45',
-        'metadata' => json_encode(['test' => 'production'])
+        'metadata' => ['test' => 'production']
     ];
     $jsonContent = json_encode($jsonData);
 
+    Notification::fake();
     Storage::fake('local');
     $path = 'attachments/test.json';
     Storage::put($path, $jsonContent);
@@ -54,7 +57,7 @@ it('processes a JSON attachment and updates ticket detail', function () {
 
     $service = new TicketAttachmentService();
 
-    $job = new ProcessTicketAttachment($attachment, $service);
+    $job = new ProcessTicketAttachment($attachment->id, $service);
     $job->handle();
 
     $ticketDetail = TicketDetail::where('ticket_id', $ticket->id)->first();
@@ -64,6 +67,15 @@ it('processes a JSON attachment and updates ticket detail', function () {
 
     $this->assertDatabaseHas('tickets', [
         'id' => $ticket->id,
-        'status' => TicketStatus::PROCESSING_ATTACHMENTS
+        'status' => TicketStatus::OPEN
     ]);
+
+    Notification::assertSentTo(
+        [$this->user],
+        AttachmentProcessed::class,
+        function ($notification, $channels) use ($ticket) {
+            return $notification->data['ticket_id'] === $ticket->id
+                && $notification->data['message'] === 'Attachment processed successfully';
+        }
+    );
 });
