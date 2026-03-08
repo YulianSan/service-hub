@@ -91,3 +91,34 @@ it('deletes project', function () {
         'id' => $project->id
     ]);
 });
+
+it('does not list projects from another company', function () {
+
+    $otherCompany = Company::factory()->create();
+
+    $otherProject = Project::factory()->create([
+        'company_id' => $otherCompany->id
+    ]);
+
+    $response = get(route('projects.index'));
+
+    $response->assertInertia(
+        fn($page) =>
+        $page->has('projects.data', 0)
+    );
+
+    $response = get(route('projects.edit', $otherProject->id));
+    $response->assertForbidden();
+
+    $response = put(route('projects.update', $otherProject->id), [
+        'name' => 'Updated',
+        'description' => 'Updated'
+    ]);
+
+    $response->assertForbidden();
+
+    $response = delete(route('projects.destroy', $otherProject->id));
+    $response->assertForbidden();
+});
+
+
