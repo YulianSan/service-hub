@@ -7,10 +7,10 @@ defineProps<{
 </script>
 
 <template>
-    <div :class="[
-        'bg-white rounded-lg border border-orange-400 shadow-md shadow-orange-100 p-6 w-full mx-auto',
+    <Box :class="[
+        ' max-w-md',
         $props.class
     ]">
         <slot />
-    </div>
+    </Box>
 </template>
