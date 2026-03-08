@@ -79,3 +79,93 @@ it('processes a JSON attachment and updates ticket detail', function () {
         }
     );
 });
+
+it('fails to process a find attachment', function () {
+    $ticket = Ticket::factory()->create([
+        'status' => TicketStatus::CLOSED,
+        'project_id' => $this->project->id,
+        'user_id' => $this->user->id
+    ]);
+
+    $jsonData = [
+        'errors' => 'TimeoutException',
+        'technical_notes' => 'App/Service.php:45',
+        'metadata' => ['test' => 'production']
+    ];
+    $jsonContent = json_encode($jsonData);
+
+    Notification::fake();
+    Storage::fake('local');
+    $path = 'attachments/test.json';
+    Storage::put($path, $jsonContent);
+
+    $attachment = $ticket->attachment()->create([
+        'filename' => 'test.json',
+        'path' => $path,
+        'mime_type' => 'json',
+        'size' => strlen($jsonContent),
+    ]);
+
+    $service = new TicketAttachmentService();
+
+    $job = new ProcessTicketAttachment($attachment->id, $service);
+    $job->handle();
+
+    $this->assertDatabaseHas('tickets', [
+        'id' => $ticket->id,
+        'status' => TicketStatus::CLOSED
+    ]);
+
+    Notification::assertSentTo(
+        [$this->user],
+        AttachmentProcessed::class,
+        function ($notification, $channels) use ($ticket) {
+            return $notification->data['ticket_id'] === $ticket->id
+                && $notification->data['message'] === 'Ticket is not pending attachment processing';
+        }
+    );
+});
+
+it('fails to process attachment', function () {
+    $ticket = Ticket::factory()->create([
+        'status' => TicketStatus::PENDING_ATTACHMENT_PROCESSING,
+        'project_id' => $this->project->id,
+        'user_id' => $this->user->id
+    ]);
+
+    $jsonContent = 'error';
+
+    Notification::fake();
+    Storage::fake('local');
+    $path = 'attachments/test.json';
+    Storage::put($path, $jsonContent);
+
+    $attachment = $ticket->attachment()->create([
+        'filename' => 'test.json',
+        'path' => $path,
+        'mime_type' => 'json',
+        'size' => strlen($jsonContent),
+    ]);
+
+    $service = new TicketAttachmentService();
+
+    $this->expectException(Throwable::class);
+
+    $job = new ProcessTicketAttachment($attachment->id, $service);
+    $job->handle();
+
+    $this->assertDatabaseHas('tickets', [
+        'id' => $ticket->id,
+        'status' => TicketStatus::PENDING_ATTACHMENT_PROCESSING
+    ]);
+
+
+    Notification::assertSentTo(
+        [$this->user],
+        AttachmentProcessed::class,
+        function ($notification, $channels) use ($ticket) {
+            return $notification->data['ticket_id'] === $ticket->id
+                && $notification->data['message'] === 'Invalid json: Syntax error';
+        }
+    );
+});

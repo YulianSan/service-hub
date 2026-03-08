@@ -16,9 +16,9 @@ use Throwable;
 
 class ProcessTicketAttachment implements ShouldQueue
 {
-    use Queueable, Dispatchable, SerializesModels;
+    use Queueable, Dispatchable;
 
-    public Attachment $attachment;
+    public ?Attachment $attachment;
 
     public function __construct(
         int $attachment_id,
@@ -36,6 +36,11 @@ class ProcessTicketAttachment implements ShouldQueue
         $ticket = $this->attachment->attachable;
 
         if (!$ticket || $ticket->status !== TicketStatus::PENDING_ATTACHMENT_PROCESSING) {
+            $ticket->user->notify(new AttachmentProcessed([
+                'ticket_id' => $ticket->id,
+                'message' => 'Ticket is not pending attachment processing'
+            ]));
+
             return;
         }
 
@@ -56,6 +61,11 @@ class ProcessTicketAttachment implements ShouldQueue
             $ticket->update([
                 'status' => TicketStatus::OPEN
             ]);
+
+            $ticket->user->notify(new AttachmentProcessed([
+                'ticket_id' => $ticket->id,
+                'message' => 'Attachment processing failed'
+            ]));
 
             Log::error('Error (ProcessTicketAttachment)', [
                 'attachment_id' => $this->attachment->id,

@@ -11,7 +11,8 @@ const form = useForm({});
 const markAsRead = (notification: any) => {
     form.post(route('notifications.read', notification.id), {
         onSuccess: () => {
-            router.visit(route('tickets.edit', notification.data.ticket_id))
+            if (notification.data?.ticket_id)
+                router.visit(route('tickets.edit', notification.data.ticket_id))
         }
     });
 }
@@ -30,7 +31,7 @@ const markAsRead = (notification: any) => {
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
                 @click="markAsRead(notification)">
                 <span :class="{ 'font-bold': !notification.read_at }">
-                    {{ notification.data.ticket_id }} - {{ notification.data.message }}
+                    {{ notification.data?.ticket_id }} - {{ notification.data.message }}
                 </span>
                 <span v-if="!notification.read_at" class="w-2 h-2 bg-red-500 rounded-full"></span>
             </div>
