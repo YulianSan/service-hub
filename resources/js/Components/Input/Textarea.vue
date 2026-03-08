@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, watch, onMounted } from 'vue';
 
 const modelValue = defineModel();
 const props = defineProps<{
-    id: string;
-    error?: string;
+    id: string
+    error?: string
+    value?: string
 }>();
+
+watch(() => props.value, (newVal) => {
+    if (newVal !== undefined && newVal !== modelValue.value) {
+        modelValue.value = newVal
+    }
+})
+
+onMounted(() => {
+    if (props.value) {
+        modelValue.value = props.value
+    }
+})
 </script>
 
 <template>
