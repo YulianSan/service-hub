@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layout/Authenticated.vue';
+import { Project } from '@/types/project';
 import { Link } from '@inertiajs/vue3';
 
 const props = defineProps<{
-    projects: { data: Record<string, any>[] }
+    projects: { data: Project[] }
 }>()
 </script>
 <template>
