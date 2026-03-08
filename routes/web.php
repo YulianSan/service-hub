@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Ticket\TicketController;
+use App\Http\Controllers\User\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -19,6 +20,9 @@ Route::middleware(['auth'])->group(function () {
         [NotificationController::class, 'markAllAsRead']
     )->name('notifications.readAll');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('users-profile', UserProfileController::class)
+        ->parameter('users-profile', 'user')
+        ->only('edit', 'update');
 });
 
 Route::middleware(['guest'])->prefix('login')->group(function () {
