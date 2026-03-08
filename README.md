@@ -77,6 +77,15 @@ Run seeders:
 
 ---
 
+# Default User
+
+After running the seeders, you can log in using the default admin account:
+
+* **Email:** [admin@gmail.com](mailto:admin@gmail.com)
+* **Password:** password
+
+---
+
 # Generate Ziggy Routes
 
 If the project uses **Ziggy** for frontend routing:
