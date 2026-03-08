@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\TicketStatus;
+use App\Jobs\ProcessTicketAttachment;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -63,5 +64,7 @@ class TicketService
             'mime_type' => $file->getClientOriginalExtension(),
             'size' => $file->getSize()
         ]);
+
+        ProcessTicketAttachment::dispatch($ticket->attachment);
     }
 }

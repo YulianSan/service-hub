@@ -13,6 +13,10 @@ class TicketDetail extends Model
         'metadata',
     ];
 
+    protected $casts = [
+        'metadata' => 'array'
+    ];
+
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
