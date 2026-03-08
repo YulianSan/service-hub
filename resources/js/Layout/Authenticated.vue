@@ -22,48 +22,8 @@ const markAsRead = (id: number) => {
                 </nav>
 
                 <div>
-                    <UiPopoverPopover>
-                        <UiPopoverPopoverTrigger as-child>
-                            <ButtonPrimary>
-                                🔔({{ page.props.notifications?.length ?? 0 }})
-                            </ButtonPrimary>
-                        </UiPopoverPopoverTrigger>
-
-                        <UiPopoverPopoverContent
-                            class="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-md shadow-lg max-h-96 overflow-y-auto z-50">
-                            <div v-for="notification in page.props.notifications" :key="notification.id"
-                                class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
-                                @click="markAsRead(notification.id)">
-                                <span :class="{ 'font-bold': !notification.read_at }">{{ notification.data.message
-                                    }}</span>
-                                <span v-if="!notification.read_at" class="w-2 h-2 bg-red-500 rounded-full"></span>
-                            </div>
-                            <div v-if="page.props.notifications.length === 0" class="px-4 py-2 text-gray-400 text-sm">
-                                Sem notificações
-                            </div>
-                        </UiPopoverPopoverContent>
-                    </UiPopoverPopover>
-                    <UiDropdownMenuDropdownMenu>
-                        <UiDropdownMenuDropdownMenuTrigger as-child>
-                            <ButtonSecondary>
-                                Profile - {{ page.props.auth.user.name }}
-                            </ButtonSecondary>
-                        </UiDropdownMenuDropdownMenuTrigger>
-                        <UiDropdownMenuDropdownMenuContent class="w-56" align="start">
-                            <UiDropdownMenuDropdownMenuGroup>
-                                <Link :href="$route('users-profile.edit', page.props.auth.user.id)" as="span">
-                                <UiDropdownMenuDropdownMenuItem>
-                                    Profile
-                                </UiDropdownMenuDropdownMenuItem>
-                                </Link>
-                                <Link :href="$route('logout')" method="post" as="span">
-                                <UiDropdownMenuDropdownMenuItem>
-                                    Log out
-                                </UiDropdownMenuDropdownMenuItem>
-                                </Link>
-                            </UiDropdownMenuDropdownMenuGroup>
-                        </UiDropdownMenuDropdownMenuContent>
-                    </UiDropdownMenuDropdownMenu>
+                    <ButtonNotification :notifications="page.props.notifications" @click="markAsRead" />
+                    <ButtonProfile :user="page.props.auth.user" />
                 </div>
             </div>
         </header>
