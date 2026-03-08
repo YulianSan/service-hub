@@ -43,11 +43,27 @@ const markAsRead = (id: number) => {
                             </div>
                         </UiPopoverPopoverContent>
                     </UiPopoverPopover>
-                    <Link href="/logout" method="post" as="span">
-                    <ButtonSecondary>
-                        Logout
-                    </ButtonSecondary>
-                    </Link>
+                    <UiDropdownMenuDropdownMenu>
+                        <UiDropdownMenuDropdownMenuTrigger as-child>
+                            <ButtonSecondary>
+                                Profile - {{ page.props.auth.user.name }}
+                            </ButtonSecondary>
+                        </UiDropdownMenuDropdownMenuTrigger>
+                        <UiDropdownMenuDropdownMenuContent class="w-56" align="start">
+                            <UiDropdownMenuDropdownMenuGroup>
+                                <Link :href="$route('users-profile.edit', page.props.auth.user.id)" as="span">
+                                <UiDropdownMenuDropdownMenuItem>
+                                    Profile
+                                </UiDropdownMenuDropdownMenuItem>
+                                </Link>
+                                <Link :href="$route('logout')" method="post" as="span">
+                                <UiDropdownMenuDropdownMenuItem>
+                                    Log out
+                                </UiDropdownMenuDropdownMenuItem>
+                                </Link>
+                            </UiDropdownMenuDropdownMenuGroup>
+                        </UiDropdownMenuDropdownMenuContent>
+                    </UiDropdownMenuDropdownMenu>
                 </div>
             </div>
         </header>
