@@ -1,13 +1,6 @@
 <script setup lang="ts">
-import { Link, usePage, useForm } from '@inertiajs/vue3';
-import { route } from '@/services/route'
+import { Link, usePage } from '@inertiajs/vue3';
 const page = usePage();
-
-const form = useForm({});
-
-const markAsRead = (id: number) => {
-    form.post(route('notifications.read', id));
-}
 </script>
 <template>
     <div class="min-h-screen bg-gray-50">
@@ -22,7 +15,7 @@ const markAsRead = (id: number) => {
                 </nav>
 
                 <div>
-                    <ButtonNotification :notifications="page.props.notifications" @click="markAsRead" />
+                    <ButtonNotification :notifications="page.props.notifications" />
                     <ButtonProfile :user="page.props.auth.user" />
                 </div>
             </div>
