@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\TicketStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'project_id',
         'user_id',
@@ -13,9 +17,13 @@ class Ticket extends Model
         'status',
     ];
 
-    public function attachments()
+    protected $casts = [
+        'status' => TicketStatus::class
+    ];
+
+    public function attachment()
     {
-        return $this->morphMany(Attachment::class, 'attachable');
+        return $this->morphOne(Attachment::class, 'attachable');
     }
 
     public function project()

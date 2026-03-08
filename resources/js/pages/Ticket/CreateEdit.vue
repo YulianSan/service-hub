@@ -1,0 +1,41 @@
+<script setup lang="ts">
+import AuthenticatedLayout from '@/Layout/Authenticated.vue';
+import { useForm, router } from '@inertiajs/vue3';
+import { route } from '@/services/route'
+import type { Ticket, TicketStatus } from '@/types/ticket';
+import type { Project } from '@/types/project';
+
+const props = defineProps<{
+    ticket?: Ticket,
+    projects: Project[]
+}>()
+
+const form = useForm({
+    project_id: props.ticket?.project_id ?? '',
+    title: props.ticket?.title ?? '',
+    attachment: null
+})
+
+const submit = () => {
+    if (props.ticket) {
+        form.put(route('tickets.update', props.ticket.id))
+        return
+    }
+    form.post(route('tickets.store'))
+}
+
+const cancel = () => {
+    router.visit(route('tickets.index'))
+}
+
+</script>
+<template>
+    <AuthenticatedLayout>
+        <Form @submit="submit" @cancel="cancel" title="Create ticket">
+            <Input id="title" v-model="form.title"> Title </Input>
+            <Select id="project_id" v-model="form.project_id" :options="props.projects" :label="(option) => option.name"
+                :value="(option) => option.id" labelSelect="Project" />
+            <InputFile v-if="props?.ticket?.status !== 'closed'" id="attachment" v-model="form.attachment" accept=".txt,.json"> Attachment </InputFile>
+        </Form>
+    </AuthenticatedLayout>
+</template>
