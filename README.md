@@ -28,7 +28,7 @@ Install PHP dependencies:
 
 ```bash
 docker run --rm \
-    -u "$(id -u):$(id -g)" \
+    -e COMPOSER_HOME=/tmp/composer \
     -v $(pwd):/var/www/html \
     -w /var/www/html \
     laravelsail/php84-composer:latest \
