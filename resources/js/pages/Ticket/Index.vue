@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layout/Authenticated.vue';
-import type { Ticket } from '@/types/ticket';
 import type { Pagination } from '@/types/pagination'
+import type { Ticket } from '@/types/ticket';
 
 const props = defineProps<{
     tickets: Pagination<Ticket>

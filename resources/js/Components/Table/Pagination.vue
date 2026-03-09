@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { markRaw } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { markRaw } from 'vue'
 import type { Pagination } from '@/types/pagination'
 
 defineProps<{
@@ -16,7 +16,7 @@ const InertiaLink = markRaw(Link)
         <UiPaginationPaginationContent>
             <UiPaginationPaginationPrevious :as="InertiaLink" :href="pagination.links[0].url ?? '#'" />
 
-            <template v-for="link in pagination.links.slice(1, -1)">
+            <template v-for="link in pagination.links.slice(1, -1)"  :key="link.page">
                 <UiPaginationPaginationItem v-if="!!link.url" :value="link.page" :as="InertiaLink" :href="link.url" :is-active="link.active">
                     {{ link.label }}
                 </UiPaginationPaginationItem>
