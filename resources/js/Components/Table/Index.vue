@@ -1,5 +1,6 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { computed } from 'vue'
+import type { Pagination } from '@/types/pagination'
 
 interface Column {
     key: string
@@ -8,7 +9,8 @@ interface Column {
 
 const props = defineProps<{
     columns?: Column[]
-    data: Record<string, any>[]
+    data: Record<string, any>[],
+    pagination?: Pagination<T>
 }>()
 
 const computedColumns = computed(() => {
@@ -55,5 +57,6 @@ const computedColumns = computed(() => {
                 </tr>
             </tbody>
         </table>
+        <TablePagination v-if="props?.pagination" :pagination="props.pagination" />
     </div>
 </template>
