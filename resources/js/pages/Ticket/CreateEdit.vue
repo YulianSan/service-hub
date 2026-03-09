@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layout/Authenticated.vue';
-import { computed } from 'vue';
 import { useForm, router } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { route } from '@/services/route'
-import type { Ticket, TicketStatus } from '@/types/ticket';
 import type { Project } from '@/types/project';
+import type { Ticket } from '@/types/ticket';
 
 const props = defineProps<{
     ticket?: Ticket,

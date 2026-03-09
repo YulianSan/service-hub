@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { Link } from '@inertiajs/vue3';
-import { Ticket } from '@/types/ticket';
+import AuthenticatedLayout from '@/Layout/Authenticated.vue';
+import type { Ticket } from '@/types/ticket';
 
 const props = defineProps<{
     tickets: { data: Ticket[] }

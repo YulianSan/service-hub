@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { useForm, router } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { route } from '@/services/route'
 import type { Project } from '@/types/project';
-import { computed } from 'vue';
 
 const props = defineProps<{
     project?: Project

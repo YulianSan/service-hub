@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { useForm, router } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import { route } from '@/services/route'
 import type { User } from '@/types/user';
 

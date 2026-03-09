@@ -49,6 +49,9 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
+      - name: Generate Ziggy
+        run: artisan ziggy:generate
+
       - name: Build Assets
         run: npm run build
 

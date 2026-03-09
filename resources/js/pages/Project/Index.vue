@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layout/Authenticated.vue';
-import { Project } from '@/types/project';
 import { Link } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layout/Authenticated.vue';
+import type { Project } from '@/types/project';
 
 const props = defineProps<{
     projects: { data: Project[] }
