@@ -3,5 +3,6 @@
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\InertiaSharedDataProvider::class,
-    LaravelLegends\PtBrValidator\ValidatorProvider::class
+    App\Providers\ServiceBindingServiceProvider::class,
+    LaravelLegends\PtBrValidator\ValidatorProvider::class,
 ];

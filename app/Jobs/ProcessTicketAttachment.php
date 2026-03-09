@@ -2,14 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Contracts\Services\TicketAttachmentServiceInterface;
 use App\Enums\TicketStatus;
 use App\Models\Attachment;
 use App\Notifications\AttachmentProcessed;
-use App\Services\TicketAttachmentService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
@@ -22,7 +21,7 @@ class ProcessTicketAttachment implements ShouldQueue
 
     public function __construct(
         int $attachment_id,
-        public TicketAttachmentService $ticketAttachmentService
+        public TicketAttachmentServiceInterface $ticketAttachmentService
     ) {
         $this->attachment = Attachment::find($attachment_id);
     }

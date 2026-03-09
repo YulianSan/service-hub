@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\Services\TicketAttachmentServiceInterface;
 use App\Enums\TicketStatus;
 use App\Jobs\ProcessTicketAttachment;
 use App\Models\Ticket;
@@ -67,7 +68,7 @@ class TicketService
 
         ProcessTicketAttachment::dispatch(
             $attachment->id,
-            new TicketAttachmentService
+            app()->make(TicketAttachmentServiceInterface::class)
         );
     }
 }

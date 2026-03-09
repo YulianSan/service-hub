@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-class TicketAttachmentService
+use App\Contracts\Services\TicketAttachmentServiceInterface;
+
+class TicketAttachmentService implements TicketAttachmentServiceInterface
 {
     public function parseJson(string $content): array
     {
