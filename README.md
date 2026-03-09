@@ -133,3 +133,26 @@ Run tests:
 ```bash
 ./vendor/bin/sail artisan test
 ```
+
+---
+
+## Ticket Attachment Format
+
+When uploading a file (`.json` or `.txt`) while creating a ticket, the file content must follow the structure below:
+
+```json
+{
+    "errors": "Test",
+    "technical_notes": "App/Test",
+    "metadata": {
+        "test": "test"
+    }
+}
+```
+
+### Fields
+
+* **errors**: Description of the error that occurred.
+* **technical_notes**: Technical notes related to the issue.
+* **metadata**: Additional information related to the ticket (key-value format).
+
