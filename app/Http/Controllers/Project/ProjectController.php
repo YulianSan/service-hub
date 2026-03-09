@@ -21,7 +21,7 @@ class ProjectController extends Controller
             'projects' => Project::where(
                 'company_id',
                 request()->user()->company_id
-            )->with('company')->paginate(15)
+            )->with('company')->paginate(10)
         ]);
     }
 

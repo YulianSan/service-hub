@@ -2,9 +2,10 @@
 import { Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import type { Ticket } from '@/types/ticket';
+import type { Pagination } from '@/types/pagination'
 
 const props = defineProps<{
-    tickets: { data: Ticket[] }
+    tickets: Pagination<Ticket>
 }>()
 </script>
 <template>
@@ -16,7 +17,7 @@ const props = defineProps<{
             </Link>
         </div>
         <div class="mt-4">
-            <Table :columns="[
+            <Table :pagination="props.tickets" :columns="[
                 { key: 'id', label: 'ID' },
                 { key: 'title', label: 'Title' },
                 { key: 'status', label: 'Status' },

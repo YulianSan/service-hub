@@ -27,7 +27,7 @@ class TicketController extends Controller
             'tickets' => Ticket::whereHas(
                 'project',
                 fn($q) => $q->where('company_id', request()->user()->company_id)
-            )->with('project')->paginate(15),
+            )->with('project')->paginate(10)
         ]);
     }
 

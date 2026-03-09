@@ -2,9 +2,10 @@
 import { Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layout/Authenticated.vue';
 import type { Project } from '@/types/project';
+import type { Pagination } from '@/types/pagination'
 
 const props = defineProps<{
-    projects: { data: Project[] }
+    projects: Pagination<Project>;
 }>()
 </script>
 <template>
@@ -16,7 +17,7 @@ const props = defineProps<{
             </Link>
         </div>
         <div class="mt-4">
-            <Table :columns="[
+            <Table :pagination="projects" :columns="[
                 { key: 'id', label: 'ID' },
                 { key: 'name', label: 'Name' },
                 { key: 'description', label: 'Description' },
